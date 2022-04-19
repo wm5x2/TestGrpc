@@ -1,0 +1,26 @@
+■ ingressインストール
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.0.4/deploy/static/provider/baremetal/deploy.yaml
+
+docker build --build-arg JAR_FILE=build/libs/*.jar -t grpc.server .
+
+kubectl apply -f server.yaml
+kubectl delete -f server.yaml
+
+kubectl get pod -A
+kubectl get svc -A
+kubectl describe ingress grpc-ingress
+
+kubectl scale deployment grpc-server --current-replicas=3 --replicas=4
+kubectl scale --replicas=5 -f server.yaml
+
+
+-----------------------------------------------------------------------
+kubectl exec -it ingress-nginx-controller-644555766d-dqcdk -n ingress-nginx -- /nginx-ingress-controller --version
+
+kubectl exec -it ingress-nginx-controller-644555766d-dqcdk -n ingress-nginx -- /bin/bash
+cat -n nginx.conf | grep 'headless'
+
+// 80 http2 毎回修正必要
+vi nginx.conf
+nginx -s reload
+

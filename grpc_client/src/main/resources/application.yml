@@ -1,0 +1,6 @@
+server:
+  port: 8080
+#grpc:
+#  client:
+#    __name__:
+#      negotiationType:PLAINTEXT

@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: grpc-server1
+  name: grpc-server1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: grpc-server1
+  template:
+    metadata:
+      labels:
+        app: grpc-server1
+    spec:
+      containers:
+      - image: servertest
+        imagePullPolicy: Never
+        resources:
+          limits:
+            cpu: 100m
+            memory: 100Mi
+          requests:
+            cpu: 50m
+            memory: 50Mi
+        name: grpc-server1
+        ports:
+        - containerPort: 9002
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: grpc-server1
+  name: head-service
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 9002
+  selector:
+    app: grpc-server1
+  type: ClusterIP
+  clusterIP: None

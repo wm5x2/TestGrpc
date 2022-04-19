@@ -1,0 +1,11 @@
+cd D:\WorkSpace\TestGrpc\grpc_client
+
+docker build --build-arg JAR_FILE=build/libs/*.jar -t grpc.client .
+
+kubectl expose deployment grpc-client --type=LoadBalancer --name=client-service
+
+
+curl -X GET "http://localhost:8080/hello?name=AAA"
+
+
+kubectl exec -it <pod-name> /bin/bash

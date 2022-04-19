@@ -1,0 +1,21 @@
+plugins {
+    id "com.google.protobuf" version "0.8.17"
+}
+protobuf {
+    // Configure the protoc executable
+    protoc {
+        // Download from repositories
+        artifact = 'com.google.protobuf:protoc:3.19.1'
+    }
+    plugins{
+        grpc {
+        artifact = 'io.grpc:protoc-gen-grpc-java:1.41.0'
+    }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
+    generatedFilesBaseDir = "$projectDir/src/generated"
+}
